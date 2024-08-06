@@ -12,6 +12,14 @@ mstyle.use(catppuccin.PALETTE.macchiato.identifier)
 # Verify if imports succeeded
 print(torch.__version__)
 print(device)
+
+"""
+Generate the next iteration of the Dragon Curve given the previous one
+
+This is acheived by calculating the midpoints of all points and extending them
+in alternating directions. The magnitide of the extention is the distance
+between points
+"""
 def generate_new_points(points: torch.Tensor) -> torch.Tensor:
 
     # Generate midpoints by effectively doubling the input points
@@ -35,6 +43,10 @@ def generate_new_points(points: torch.Tensor) -> torch.Tensor:
     interleaved_points[1::2][:len(new_midpoints)] = new_midpoints
     interleaved_points[-1] = points[-1]
     return interleaved_points
+
+"""
+Generate and graph the Dragon Curve fractal
+"""
 def graph_fractal(iterations: int):
     # Initial points
     points = torch.tensor([[0, 0], [1, 0]], device=device)
@@ -55,6 +67,12 @@ def graph_fractal(iterations: int):
     ax.set_aspect('equal', adjustable='box')
     plt.tight_layout(pad=0)
     plt.show()
+
+
+
+"""
+Saves every iteration of the fractal into an mp4 and gif
+"""
 def animate_fractal(iter):
     # creating a blank window 
     # for the animation  
@@ -83,3 +101,10 @@ def animate_fractal(iter):
     # Save as files
     anim.save('DragonFractalAnimation.gif', writer = 'ffmpeg', fps = 2)
     anim.save('DragonFractalAnimation.mp4', dpi=400, writer = 'ffmpeg', fps = 2)
+
+
+# My GPU only has memory for about 25 iterations. I could reduce this with in
+# place mutations or smaller floats
+graph_fractal(25)
+animate_fractal(25)
+
