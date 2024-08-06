@@ -55,3 +55,31 @@ def graph_fractal(iterations: int):
     ax.set_aspect('equal', adjustable='box')
     plt.tight_layout(pad=0)
     plt.show()
+def animate_fractal(iter):
+    # creating a blank window 
+    # for the animation  
+    fig = plt.figure()  
+    axis = plt.axes(xlim =(-0.4, 1.2), ylim =(-0.4, 0.8))  
+    axis.xaxis.set_visible(False)
+    axis.yaxis.set_visible(False)
+      
+    initial_points = torch.tensor([[0, 0], [1, 0]], device=device).cpu()
+    graph, = axis.plot(initial_points[:, 0].numpy(), initial_points[:, 1].numpy(), lw = 0.5)
+
+    # Animate each frame based on the iteration number / frame count
+    def animate_frame(frameNumber):
+        points = torch.tensor([[0, 0], [1, 0]], device=device)
+        for _ in range(frameNumber):
+            points = generate_new_points(points)
+        x_data = points[:, 0].cpu().numpy()
+        y_data = points[:, 1].cpu().numpy()
+        graph.set_data(x_data, y_data)
+        return graph,
+
+    # Animate the iterations
+    anim = anime.FuncAnimation(fig, animate_frame,  
+                                   frames = iter, interval = 1, blit = True)  
+       
+    # Save as files
+    anim.save('DragonFractalAnimation.gif', writer = 'ffmpeg', fps = 2)
+    anim.save('DragonFractalAnimation.mp4', dpi=400, writer = 'ffmpeg', fps = 2)
