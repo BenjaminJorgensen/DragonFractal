@@ -59,7 +59,7 @@ def graph_fractal(iterations: int):
     points_cpu = points.cpu()
 
     # Plot data
-    _, ax = plt.subplots(figsize=(16, 10))
+    fig, ax = plt.subplots(figsize=(16, 10))
     ax.grid(True, which='both', linestyle='--', linewidth=0.5)
     ax.set_xlim([-0.4, 1.2])  # Set y-axis limits
     ax.set_ylim([-0.4, 0.8])  # Set x-axis limits
@@ -67,6 +67,7 @@ def graph_fractal(iterations: int):
     ax.set_aspect('equal', adjustable='box')
     plt.tight_layout(pad=0)
     plt.show()
+    fig.savefig('DragonFractal.png', dpi=500)
 
 
 
@@ -78,8 +79,7 @@ def animate_fractal(iter):
     # for the animation  
     fig = plt.figure()  
     axis = plt.axes(xlim =(-0.4, 1.2), ylim =(-0.4, 0.8))  
-    axis.xaxis.set_visible(False)
-    axis.yaxis.set_visible(False)
+    axis.axis('off')
       
     initial_points = torch.tensor([[0, 0], [1, 0]], device=device).cpu()
     graph, = axis.plot(initial_points[:, 0].numpy(), initial_points[:, 1].numpy(), lw = 0.5)
@@ -100,7 +100,7 @@ def animate_fractal(iter):
        
     # Save as files
     anim.save('DragonFractalAnimation.gif', writer = 'ffmpeg', fps = 2)
-    anim.save('DragonFractalAnimation.mp4', dpi=400, writer = 'ffmpeg', fps = 2)
+    anim.save('DragonFractalAnimation.mp4', dpi=500, writer = 'ffmpeg', fps = 2)
 
 
 # My GPU only has memory for about 25 iterations. I could reduce this with in
