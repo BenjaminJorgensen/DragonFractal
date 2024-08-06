@@ -35,3 +35,23 @@ def generate_new_points(points: torch.Tensor) -> torch.Tensor:
     interleaved_points[1::2][:len(new_midpoints)] = new_midpoints
     interleaved_points[-1] = points[-1]
     return interleaved_points
+def graph_fractal(iterations: int):
+    # Initial points
+    points = torch.tensor([[0, 0], [1, 0]], device=device)
+
+    # Continually update the points
+    for _ in range(iterations):
+        points = generate_new_points(points)
+
+    # Move data to CPU for plotting
+    points_cpu = points.cpu()
+
+    # Plot data
+    _, ax = plt.subplots(figsize=(16, 10))
+    ax.grid(True, which='both', linestyle='--', linewidth=0.5)
+    ax.set_xlim([-0.4, 1.2])  # Set y-axis limits
+    ax.set_ylim([-0.4, 0.8])  # Set x-axis limits
+    ax.plot(points_cpu[:, 0].numpy(), points_cpu[:, 1].numpy(), lw=0.2)
+    ax.set_aspect('equal', adjustable='box')
+    plt.tight_layout(pad=0)
+    plt.show()
