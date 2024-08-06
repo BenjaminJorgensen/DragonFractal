@@ -67,7 +67,7 @@ def graph_fractal(iterations: int):
     ax.set_aspect('equal', adjustable='box')
     plt.tight_layout(pad=0)
     plt.show()
-    fig.savefig('DragonFractal.png', dpi=500)
+    fig.savefig('./assets/DragonFractal2.png', bbox_inches='tight')
 
 
 
@@ -99,8 +99,8 @@ def animate_fractal(iter):
                                    frames = iter, interval = 1, blit = True)  
        
     # Save as files
-    anim.save('DragonFractalAnimation.gif', writer = 'ffmpeg', fps = 2)
-    anim.save('DragonFractalAnimation.mp4', dpi=500, writer = 'ffmpeg', fps = 2)
+    anim.save('./assets/DragonFractalAnimation.gif', writer = 'ffmpeg', fps = 2)
+    anim.save('./assets/DragonFractalAnimation.mp4', dpi=500, writer = 'ffmpeg', fps = 2)
 
 
 # My GPU only has memory for about 25 iterations. I could reduce this with in
